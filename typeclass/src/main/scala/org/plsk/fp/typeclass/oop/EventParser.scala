@@ -1,19 +1,19 @@
-package org.plsk.fp.typeclass.domain.event
+package org.plsk.fp.typeclass.oop
 
-import org.plsk.fp.typeclass.oop.{ProgramCancelledReader, ProgramLikedReader, ProgramStartedReader, RawEventReader}
+import org.plsk.fp.typeclass.domain.event._
 
 import scala.util.{Failure, Try}
 
 class EventParser(
-  private val rawEventReader: RawEventReader,
-  private val programStartedReader: ProgramStartedReader,
-  private val programCancelledReader: ProgramCancelledReader,
-  private val programLikedReader: ProgramLikedReader
+                   private val rawEventReader: RawEventParser,
+                   private val programStartedReader: ProgramStartedParser,
+                   private val programCancelledReader: ProgramCancelledParser,
+                   private val programLikedReader: ProgramLikedParser
 ) {
 
   def parseMesage(msg: String): Try[RawEvent] = Try(rawEventReader.read(msg))
 
-  def readToModel(event: RawEvent): Try[DomainEvent] = event.`type` match {
+  def readToModel(event: RawEvent): Try[DomainEvent] = event.eventType match {
     case "program_started" =>
       createProgramStarted(event.payload)
     case "program_cancelled" =>
@@ -21,7 +21,7 @@ class EventParser(
     case "program_liked" =>
       createProgramLiked(event.payload)
     case _ =>
-      Failure(new Exception(s"unhandled type [${event.`type`}]"))
+      Failure(new Exception(s"unhandled type [${event.eventType}]"))
   }
 
   def toMessage(domainEvent: DomainEvent): String = ???

@@ -1,21 +1,19 @@
 package org.plsk.fp.typeclass.oop
 
-import org.plsk.fp.typeclass.domain.event.EventParser
-
 object DI {
 
   def provideEventParser(): EventParser =  {
 
-    val rawEventReader = new RawEventReader
-    val programStartedReader = new ProgramStartedReader
-    val programCancelledReader = new ProgramCancelledReader
-    val programLikedReader = new ProgramLikedReader
+    val rawEventParser = new RawEventParser
+    val programStartedParser = new ProgramStartedParser
+    val programCancelledParser = new ProgramCancelledParser
+    val programLikedParser = new ProgramLikedParser
 
     new EventParser(
-      rawEventReader,
-      programStartedReader,
-      programCancelledReader,
-      programLikedReader
+      rawEventParser,
+      programStartedParser,
+      programCancelledParser,
+      programLikedParser
     )
   }
 

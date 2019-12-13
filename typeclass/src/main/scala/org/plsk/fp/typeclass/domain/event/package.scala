@@ -5,7 +5,7 @@ package object event {
   type ProgramID = String
   type UserID = String
 
-  case class RawEvent(`type`: String, payload: String)
+  case class RawEvent(eventType: String, payload: String)
 
   sealed trait DomainEvent {
     def programID: ProgramID

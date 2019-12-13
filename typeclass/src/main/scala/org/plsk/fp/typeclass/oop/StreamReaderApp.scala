@@ -4,7 +4,7 @@ import akka.NotUsed
 import akka.actor.ActorSystem
 import akka.stream.scaladsl.{Sink, _}
 import org.plsk.fp.typeclass.Fixtures._
-import org.plsk.fp.typeclass.domain.event.{DomainEvent, EventParser, RawEvent}
+import org.plsk.fp.typeclass.domain.event.{DomainEvent, RawEvent}
 
 object StreamReaderApp extends App {
 
