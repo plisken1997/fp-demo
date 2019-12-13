@@ -1,6 +1,6 @@
 package org.plsk.fp.typeclass.json
 
-import org.plsk.fp.typeclass.domain.event.{ProgramCancelled, ProgramLiked, ProgramStarted, RawEvent}
+import org.plsk.fp.typeclass.model.{ProgramCancelled, ProgramLiked, ProgramStarted, RawEvent}
 
 object event {
 

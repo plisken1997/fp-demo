@@ -1,30 +1,31 @@
 package org.plsk.fp.typeclass.oop
 
-import org.plsk.fp.typeclass.domain.event._
+import org.plsk.fp.typeclass.model._
 
 import scala.util.{Failure, Try}
 
 class EventParser(
-                   private val rawEventReader: RawEventParser,
-                   private val programStartedReader: ProgramStartedParser,
-                   private val programCancelledReader: ProgramCancelledParser,
-                   private val programLikedReader: ProgramLikedParser
+  private val rawEventReader: EventParserStrategy[RawEvent],
+  private val programStartedReader: EventParserStrategy[ProgramStarted],
+  private val programCancelledReader: EventParserStrategy[ProgramCancelled],
+  private val programLikedReader: EventParserStrategy[ProgramLiked]
 ) {
 
-  def parseMesage(msg: String): Try[RawEvent] = Try(rawEventReader.read(msg))
+  def parseMessage(msg: String): Try[RawEvent] = Try(rawEventReader.read(msg))
 
-  def readToModel(event: RawEvent): Try[DomainEvent] = event.eventType match {
-    case "program_started" =>
-      createProgramStarted(event.payload)
-    case "program_cancelled" =>
-      createProgramCancelled(event.payload)
-    case "program_liked" =>
-      createProgramLiked(event.payload)
-    case _ =>
-      Failure(new Exception(s"unhandled type [${event.eventType}]"))
-  }
+  def readToModel(event: RawEvent): Try[DomainEvent] =
+    event.eventType match {
+      case "program_started" => createProgramStarted(event.payload)
+      case "program_cancelled" => createProgramCancelled(event.payload)
+      case "program_liked" => createProgramLiked(event.payload)
+      case _ =>
+        Failure(new Exception(s"unhandled type [${event.eventType}]"))
+    }
 
-  def toMessage(domainEvent: DomainEvent): String = ???
+  def toMessage(domainEvent: DomainEvent): String =
+    domainEvent match {
+      case _ => s"""{"error": [{"type": "not implemented"}],"object":"$domainEvent"}"""
+    }
 
   private def createProgramStarted(programStartedPayload: String): Try[ProgramStarted] =
     Try(programStartedReader.read(programStartedPayload))

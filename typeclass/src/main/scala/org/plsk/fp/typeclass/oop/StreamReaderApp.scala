@@ -2,9 +2,9 @@ package org.plsk.fp.typeclass.oop
 
 import akka.NotUsed
 import akka.actor.ActorSystem
-import akka.stream.scaladsl.{Sink, _}
+import akka.stream.scaladsl._
 import org.plsk.fp.typeclass.Fixtures._
-import org.plsk.fp.typeclass.domain.event.{DomainEvent, RawEvent}
+import org.plsk.fp.typeclass.model._
 
 object StreamReaderApp extends App {
 
@@ -20,7 +20,7 @@ object StreamReaderApp extends App {
   val toRawEvent: Flow[String, RawEvent, NotUsed] =
     Flow.fromFunction{
       msg =>
-        eventParser.parseMesage(msg)
+        eventParser.parseMessage(msg)
           .fold(handleError[RawEvent], identity)
     }
 
@@ -49,9 +49,11 @@ object StreamReaderApp extends App {
       .via(toDomainEvent)
       .via(processEvent)
       .via(formatOutput)
-      .runWith(Sink.seq[String])
+      .runForeach(println)
 
   done.onComplete(_ => system.terminate())
+
+  // utility functions
 
   def handleError[T](error: Throwable): T = throw error
 }

@@ -1,6 +1,6 @@
 package org.plsk.fp.typeclass.oop
 
-import org.plsk.fp.typeclass.domain.event.ProgramStarted
+import org.plsk.fp.typeclass.model.ProgramStarted
 import org.scalatest.{Matchers, WordSpec}
 
 class ProgramStartedParserSpec extends WordSpec with Matchers {

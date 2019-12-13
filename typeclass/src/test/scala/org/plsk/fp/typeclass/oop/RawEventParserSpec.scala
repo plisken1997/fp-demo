@@ -1,6 +1,6 @@
 package org.plsk.fp.typeclass.oop
 
-import org.plsk.fp.typeclass.domain.event.RawEvent
+import org.plsk.fp.typeclass.model.RawEvent
 import org.scalatest.{Matchers, WordSpec}
 
 class RawEventParserSpec extends WordSpec with Matchers {
