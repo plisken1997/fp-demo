@@ -1,4 +1,4 @@
-package org.plsk.fp.typeclass
+package org.plsk.fp.typeclass.v0
 
 class FormatterContext(
                         private val parquetWriter: Formatter[Parquet],

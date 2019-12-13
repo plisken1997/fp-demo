@@ -1,6 +1,6 @@
-package org.plsk.fp
+package org.plsk.fp.typeclass
 
-package object typeclass {
+package object v0 {
 
   type JSONLike = String
 
