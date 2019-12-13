@@ -1,6 +1,7 @@
 package org.plsk.fp.typeclass.fp
 
 import JsonParser._
+import org.plsk.fp.typeclass.fp.DomainEventFormatter.DomainEventJsonFormatter
 import org.plsk.fp.typeclass.model.{DomainEvent, ProgramCancelled, ProgramLiked, ProgramStarted, RawEvent}
 
 import scala.util.{Failure, Try}
@@ -18,8 +19,6 @@ object EventParser extends JsonEventParser {
         Failure(new Exception(s"unhandled type [${event.eventType}]"))
     }
 
-  def toMessage(domainEvent: DomainEvent): String =
-    domainEvent match {
-      case _ => s"""{"error": [{"type": "not implemented"}],"object":"$domainEvent"}"""
-    }
+  def toMessage[Event <: DomainEvent : DomainEventJsonFormatter](domainEvent: Event): String =
+    implicitly[DomainEventJsonFormatter[Event]].format(domainEvent)
 }

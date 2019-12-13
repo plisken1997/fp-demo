@@ -4,7 +4,8 @@ import akka.NotUsed
 import akka.actor.ActorSystem
 import akka.stream.scaladsl._
 import org.plsk.fp.typeclass.Fixtures._
-import org.plsk.fp.typeclass.model.{DomainEvent, RawEvent}
+import org.plsk.fp.typeclass.model.{DomainEvent, ProgramStarted, RawEvent}
+import DomainEventFormatter.ProgramStartedJsonFormatter
 
 object StreamReaderApp extends App {
 
@@ -37,7 +38,8 @@ object StreamReaderApp extends App {
   // domainEvent to message
   val formatOutput: Flow[DomainEvent, String, NotUsed] =
     Flow.fromFunction {
-      event => EventParser.toMessage(event)
+      case event: ProgramStarted => EventParser.toMessage(event)
+      case e => s"""{"error": [{"type": "not implemented"}],"object":"$e"}"""
     }
 
   // run !
