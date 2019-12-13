@@ -8,11 +8,10 @@ ThisBuild / organizationName := "fp"
 lazy val typeclass = (project in file("typeclass"))
   .settings(
     name := "type class demo",
-    libraryDependencies += scalaTest % Test,
+    libraryDependencies ++= akkaStream ++ circe ++ scalaTest.map(_ % Test)
   )
 
 lazy val root = (project in file("."))
   .settings(
-    name := "fp demo",
-    libraryDependencies += scalaTest % Test
+    name := "fp demo"
   ).aggregate(typeclass)
