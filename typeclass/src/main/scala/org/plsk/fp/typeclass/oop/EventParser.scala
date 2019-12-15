@@ -24,6 +24,15 @@ class EventParser(
 
   def toMessage(domainEvent: DomainEvent): String =
     domainEvent match {
+      case e: ProgramStarted =>
+        s"""
+       |{
+       |  "eventType": "program_started,
+       |  "payload": {
+       |    "raw": "$e"
+       |  }
+       |}
+       |""".stripMargin
       case _ => s"""{"error": [{"type": "not implemented"}],"object":"$domainEvent"}"""
     }
 
